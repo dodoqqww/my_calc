@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:my_calc/models/calc.dart';
+import 'package:my_calc/providers/calc.dart';
 
-class MyCalc extends StatelessWidget {
+class SimpleCalculator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print("all build");
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -14,7 +13,7 @@ class MyCalc extends StatelessWidget {
             IconButton(
                 tooltip: "Change calculator",
                 icon: Icon(Icons.calculate),
-                onPressed: () => print("asd"))
+                onPressed: () => print("now have to change"))
           ],
         ),
         body: ListView(
@@ -33,12 +32,12 @@ class MyCalc extends StatelessWidget {
 class _MyCalcValue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print("val build");
     return Container(
         height: 200,
         decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
         //padding: EdgeInsets.all(10),
-        child: Center(child: Text('${context.watch<CalcModel>().function}')));
+        child: Center(
+            child: Text('${context.watch<SimpleCalculatorProvider>().value}')));
   }
 }
 
@@ -68,7 +67,6 @@ class _MyCalcButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("button build");
     return GridView.builder(
         shrinkWrap: true,
         itemCount: _buttons.length,
@@ -80,9 +78,9 @@ class _MyCalcButtons extends StatelessWidget {
   }
 
   Widget _calcButton({@required String name, @required BuildContext context}) {
-    return FlatButton(
+    return TextButton(
         onPressed: () => {
-              context.read<CalcModel>().pushButton(name),
+              context.read<SimpleCalculatorProvider>().pushButton(name),
             },
         child: Text(name));
   }
